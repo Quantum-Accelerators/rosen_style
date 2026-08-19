@@ -12,15 +12,9 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
 StyleName = Literal["paper", "presentation"]
-COLOR_CYCLE = (
-    "#0072B2",
-    "#D55E00",
-    "#009E73",
-    "#CC79A7",
-    "#E69F00",
-    "#56B4E9",
-    "#F0E442",
-)
+PaperColumns = Literal[1, 2]
+_GOLDEN_RATIO = (1 + 5**0.5) / 2
+COLOR_CYCLE = ("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9")
 
 _COMMON: dict[str, object] = {
     "axes.axisbelow": True,
@@ -32,14 +26,17 @@ _COMMON: dict[str, object] = {
     "axes.spines.right": False,
     "axes.spines.top": False,
     "axes.titlelocation": "left",
+    "figure.dpi": 600,
     "figure.facecolor": "white",
     "figure.constrained_layout.use": True,
     "font.family": "serif",
     "font.serif": ["Computer Modern Roman", "DejaVu Serif"],
     "image.cmap": "plasma",
     "legend.frameon": False,
+    "mathtext.fontset": "cm",
     "savefig.bbox": "tight",
-    "savefig.facecolor": "white",
+    "savefig.dpi": 600,
+    "savefig.transparent": True,
     "text.color": "#222222",
     "xtick.color": "#333333",
     "ytick.color": "#333333",
@@ -48,7 +45,7 @@ _PAPER: dict[str, object] = {
     "axes.labelsize": 10,
     "axes.linewidth": 0.8,
     "axes.titlesize": 12,
-    "figure.figsize": (6.4, 4.0),
+    "figure.figsize": (3.25, 3.25 / _GOLDEN_RATIO),
     "font.size": 10,
     "legend.fontsize": 9,
     "lines.linewidth": 1.8,
@@ -74,12 +71,23 @@ _PRESENTATION: dict[str, object] = {
 }
 
 
-def settings(name: StyleName = "paper") -> mpl.RcParams:
+def paper_size(columns: PaperColumns = 1) -> tuple[float, float]:
+    """Return a journal figure size for one or two columns."""
+    if columns not in (1, 2):
+        msg = f"Unknown paper column count {columns!r}; expected 1 or 2"
+        raise ValueError(msg)
+    width = 3.25 if columns == 1 else 7.0
+    return width, width / _GOLDEN_RATIO
+
+
+def settings(name: StyleName = "paper", *, columns: PaperColumns = 1) -> mpl.RcParams:
     """Return style rcParams without modifying global Matplotlib state."""
     if name not in ("paper", "presentation"):
         msg = f"Unknown style {name!r}; expected 'paper' or 'presentation'"
         raise ValueError(msg)
     values = {**_COMMON, **(_PAPER if name == "paper" else _PRESENTATION)}
+    if name == "paper":
+        values["figure.figsize"] = paper_size(columns)
     params = mpl.RcParams()
     # Matplotlib validates every key and value at runtime. Its private RcKeyType
     # is intentionally narrower than ``str``, so a cast is needed at this typed
@@ -88,13 +96,15 @@ def settings(name: StyleName = "paper") -> mpl.RcParams:
     return params
 
 
-def use(name: StyleName = "paper") -> None:
+def use(name: StyleName = "paper", *, columns: PaperColumns = 1) -> None:
     """Apply a style globally."""
-    mpl.rcParams.update(settings(name))
+    mpl.rcParams.update(settings(name, columns=columns))
 
 
 @contextmanager
-def context(name: StyleName = "paper") -> Generator[None, None, None]:
+def context(
+    name: StyleName = "paper", *, columns: PaperColumns = 1
+) -> Generator[None, None, None]:
     """Temporarily apply a style."""
-    with mpl.rc_context(settings(name)):
+    with mpl.rc_context(settings(name, columns=columns)):
         yield

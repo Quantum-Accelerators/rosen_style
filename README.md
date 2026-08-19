@@ -30,12 +30,21 @@ with rosen_style.context("paper"):
     fig, ax = plt.subplots()
     ax.scatter([1, 2, 3], [2.1, 3.8, 6.2])
     ax.set(xlabel="Concentration (mol/L)", ylabel="Response (a.u.)")
-    fig.savefig("response.png", dpi=300)
+    fig.savefig("response.png")  # saved at the style default of 600 DPI
+```
+
+Paper figures default to a 3.25-inch single-column width, with height chosen using the golden ratio. Use `columns=2` for a 7-inch double-column figure:
+
+```python
+with rosen_style.context("paper", columns=2):
+    fig, ax = plt.subplots()
+    ax.plot([0, 1, 2], [0, 1, 0])
+    fig.savefig("double-column.png")
 ```
 
 Outside the `with` block, Matplotlib's previous settings are restored. Mathematical notation such as `r"Position $x$"` is rendered by Matplotlib's built-in MathText engine and requires no external typesetting installation.
 
-The defaults use a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
+The defaults use 600 DPI for display and saved output, a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, transparent saved backgrounds, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
 
 ## Examples
 

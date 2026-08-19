@@ -30,7 +30,7 @@ def build(name: str) -> None:
             y = np.sin(x + phase) + rng.normal(0, 0.06, x.size)
             axes.plot(x, y, label=label, marker=marker, markevery=15)
         axes.set(xlabel="Time (s)", ylabel="Response (a.u.)")
-        axes.legend(ncols=3)
+        axes.legend()
         figure.savefig(OUTPUT / f"{name}.png", dpi=150)
         plt.close(figure)
 
