@@ -64,6 +64,10 @@ Heatmap with a perceptually uniform color scale:
 
 CI regenerates and commits these images when their source or the styles change.
 
+## Structure visualization
+
+For publication-ready atomic structures, we recommend [Pretty Lattice](https://pypi.org/project/pretty-lattice/) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
+
 ## Development
 
 ```bash
@@ -78,4 +82,5 @@ Tests disable LaTeX rendering, so CI does not require a TeX installation.
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
-- [Crameri, Shephard & Heron, “The misuse of colour in science communication”](https://www.nature.com/articles/s41467-020-19160-7)
+
+There are also many excellent Python examples on [The Python Graph Gallery](https://www.python-graph-gallery.com/) and [Python Charts](https://python-charts.com/) websites. For what not to do, check out the "[Friends Don't Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends)" repository.
