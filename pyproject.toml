@@ -8,8 +8,15 @@ description = "Readable, accessible Matplotlib styles for research papers and pr
 version = "0.0.1"
 readme = "README.md"
 license = { text = "BSD-3" }
-authors = [{ name = "YourName", email = "YourName@email.com" }]
-keywords = ["MyKeyword1", "MyKeyword2"]
+authors = [{ name = "Andrew S. Rosen", email = "asrosen@princeton.edu" }]
+keywords = [
+    "matplotlib",
+    "data visualization",
+    "scientific visualization",
+    "research figures",
+    "plotting style",
+    "accessibility",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -39,7 +46,6 @@ docs = [
 [project.urls]
 repository = "https://github.com/Quantum-Accelerators/rosen_style"
 documentation = "https://quantum-accelerators.github.io/rosen_style/"
-changelog = "https://github.com/Quantum-Accelerators/rosen_style/blob/main/CHANGELOG.md"
 
 [tool.setuptools.package-data]
 rosen_style = ["py.typed"]

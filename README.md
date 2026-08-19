@@ -20,7 +20,43 @@ ax.plot([0, 1, 2], [0, 1, 0])
 ax.set(xlabel="Time (s)", ylabel="Response (a.u.)")
 ```
 
-Use `with rosen_style.context("paper"):` for temporary styling. LaTeX is selected automatically when a `latex` executable is available; pass `latex=False` to use Matplotlib's built-in renderer.
+Use a context manager to apply a style temporarily:
+
+```python
+import matplotlib.pyplot as plt
+import rosen_style
+
+with rosen_style.context("paper"):
+    fig, ax = plt.subplots()
+    ax.scatter([1, 2, 3], [2.1, 3.8, 6.2])
+    ax.set(xlabel="Concentration (mol/L)", ylabel="Response (a.u.)")
+    fig.savefig("response.pdf")
+```
+
+Outside the `with` block, Matplotlib's previous settings are restored. LaTeX is selected automatically when a `latex` executable is available; pass `latex=False` to use Matplotlib's built-in renderer.
+
+### Installing LaTeX
+
+LaTeX is optional. If it is not already installed, use a TeX distribution appropriate for your operating system:
+
+- **Windows:** Download and run the [Basic MiKTeX Installer](https://miktex.org/howto/install-miktex). Allow MiKTeX to install missing packages automatically.
+- **macOS:** Download and install [MacTeX](https://www.tug.org/mactex/).
+- **Ubuntu or Debian:** Install TeX Live and the rendering tools Matplotlib needs:
+
+  ```bash
+  sudo apt update
+  sudo apt install texlive-latex-extra dvipng cm-super
+  ```
+
+  For other Linux distributions, install [TeX Live](https://tug.org/texlive/quickinstall.html) using the distribution's package manager or the official installer.
+
+After installation, open a new terminal and verify that LaTeX is available:
+
+```bash
+latex --version
+```
+
+If LaTeX is unavailable or causes a rendering problem, use `rosen_style.use("paper", latex=False)` or `rosen_style.context("paper", latex=False)`.
 
 The defaults use a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
 
@@ -46,7 +82,7 @@ CI regenerates and commits these images when their source or the styles change.
 
 ## Structure visualization
 
-For publication-ready atomic structures, we recommend [Pretty Lattice](https://pypi.org/project/pretty-lattice/) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
+For publication-ready atomic structures, we recommend [Pretty Lattice](https://github.com/songfeitong/pretty-lattice) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
 
 ## Development
 

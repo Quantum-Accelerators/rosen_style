@@ -68,7 +68,7 @@ def build(name: str) -> None:
             -((xx - 1.1) ** 2 + (yy + 0.8) ** 2) / 0.25
         )
         image = axes.imshow(field, extent=(-2, 2, -2, 2), origin="lower", aspect="auto")
-        axes.set(xlabel="Position x", ylabel="Position y")
+        axes.set(xlabel=r"Position $x$", ylabel=r"Position $y$")
         colorbar = figure.colorbar(image, ax=axes)
         colorbar.set_label("Intensity (a.u.)")
         figure.savefig(OUTPUT / f"{name}_heatmap.png", dpi=150)
