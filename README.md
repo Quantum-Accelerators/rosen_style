@@ -26,8 +26,6 @@ The defaults use a color-vision-friendly categorical cycle, the perceptually uni
 
 ## Examples
 
-### Paper
-
 Line plot:
 
 ![Paper line plot](examples/paper.png)
@@ -43,24 +41,6 @@ Bar plot:
 Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
-
-### Presentation
-
-Line plot:
-
-![Presentation line plot](examples/presentation.png)
-
-Scatter plot:
-
-![Presentation scatter plot](examples/presentation_scatter.png)
-
-Bar plot:
-
-![Presentation bar plot](examples/presentation_bar.png)
-
-Heatmap with a perceptually uniform color scale:
-
-![Presentation heatmap](examples/presentation_heatmap.png)
 
 CI regenerates and commits these images when their source or the styles change.
 
