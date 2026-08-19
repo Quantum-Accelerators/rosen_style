@@ -1,0 +1,49 @@
+name: docs
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install pip packages
+        run: |
+          pip install uv
+          uv pip install --system .[docs]
+
+      - name: Generate reference pages
+        run: python .github/scripts/gen_ref_pages.py
+
+      - name: Generate zensical.toml
+        run: python .github/scripts/gen_zensical_toml.py
+
+      - name: Build docs
+        run: zensical build --clean
+        id: build_docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main' && steps.build_docs.outcome == 'success'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
