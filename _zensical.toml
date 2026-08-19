@@ -1,8 +1,8 @@
 [project]
-site_name = "template"
-site_description = "This is the template package!"
+site_name = "rosen_style"
+site_description = "This is the rosen_style package!"
 site_author = "YourName"
-repo_url = "https://github.com/Quantum-Accelerators/template/"
+repo_url = "https://github.com/Quantum-Accelerators/rosen_style/"
 edit_uri = "blob/main/docs/"
 use_directory_urls = false
 

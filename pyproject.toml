@@ -3,8 +3,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "template"
-description="A Python package description goes here."
+name = "rosen_style"
+description = "Readable, accessible Matplotlib styles for research papers and presentations."
 version = "0.0.1"
 readme = "README.md"
 license = { text = "BSD-3" }
@@ -24,8 +24,8 @@ classifiers = [
     "Operating System :: Unix",
     "Operating System :: MacOS",
 ]
-requires-python = ">=3.9"
-dependencies = ["numpy"]
+requires-python = ">=3.10"
+dependencies = ["matplotlib>=3.7"]
 
 [project.optional-dependencies]
 dev = ["pytest>=9.1.1", "pytest-cov>=7.1.0", "ruff>=0.16.3"]
@@ -37,15 +37,15 @@ docs = [
 ]
 
 [project.urls]
-repository = "https://github.com/Quantum-Accelerators/template"
-documentation = "https://quantum-accelerators.github.io/template/"
-changelog = "https://github.com/Quantum-Accelerators/template/blob/main/CHANGELOG.md"
+repository = "https://github.com/Quantum-Accelerators/rosen_style"
+documentation = "https://quantum-accelerators.github.io/rosen_style/"
+changelog = "https://github.com/Quantum-Accelerators/rosen_style/blob/main/CHANGELOG.md"
 
 [tool.setuptools.package-data]
-template = ["py.typed"]
+rosen_style = ["py.typed"]
 
 [tool.pyright]
-include = ["template"]
+include = ["rosen_style"]
 exclude = ["**/__pycache__"]
 
 [tool.pytest.ini_options]
@@ -133,7 +133,7 @@ lint.unfixable = [
   "F841", # Removes unused variables
 ]
 lint.pydocstyle.convention = "numpy"
-lint.isort.known-first-party = ["template"]
+lint.isort.known-first-party = ["rosen_style"]
 lint.isort.required-imports = ["from __future__ import annotations"]
 lint.isort.split-on-trailing-comma=false
 extend-include = ["*.ipynb"]

@@ -8,6 +8,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -45,7 +48,18 @@ jobs:
           echo "COVERAGE_CORE=sysmon" >> $GITHUB_ENV
 
       - name: Run tests with pytest
-        run: pytest --cov=template --cov-report=xml
+        run: pytest --cov=rosen_style --cov-report=xml
+
+      - name: Build README figures
+        if: matrix.python-version == '3.13'
+        run: python examples/build_readme_figures.py
+
+      - name: Commit updated README figures
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.python-version == '3.13'
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "docs: update generated example figures"
+          file_pattern: examples/*.png
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
