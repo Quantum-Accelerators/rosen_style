@@ -31,7 +31,7 @@ dependencies = ["numpy"]
 dev = ["pytest>=9.1.1", "pytest-cov>=7.1.0", "ruff>=0.15.20"]
 docs = [
     "mkdocstrings-python>=2.0.5",
-    "zensical>=0.0.24",
+    "zensical>=0.0.54",
     "pillow>=12.2.0",
     "cairosvg>=2.8.2"
 ]
