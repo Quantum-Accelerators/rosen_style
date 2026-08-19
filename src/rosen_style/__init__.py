@@ -9,4 +9,4 @@ try:
 except PackageNotFoundError:  # Running directly from a source checkout.
     __version__ = "0.0.1"
 
-from ._style import COLOR_CYCLE, context, latex_available, settings, use
+from ._style import COLOR_CYCLE, context, settings, use

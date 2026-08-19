@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import shutil
 from contextlib import contextmanager
 from typing import TYPE_CHECKING, Any, Literal, cast
 
@@ -75,23 +74,12 @@ _PRESENTATION: dict[str, object] = {
 }
 
 
-def latex_available() -> bool:
-    """Return whether a LaTeX executable is available on ``PATH``."""
-    return shutil.which("latex") is not None
-
-
-def settings(name: StyleName = "paper", *, latex: bool | None = None) -> mpl.RcParams:
+def settings(name: StyleName = "paper") -> mpl.RcParams:
     """Return style rcParams without modifying global Matplotlib state."""
     if name not in ("paper", "presentation"):
         msg = f"Unknown style {name!r}; expected 'paper' or 'presentation'"
         raise ValueError(msg)
-    if latex is None:
-        latex = latex_available()
-    values = {
-        **_COMMON,
-        **(_PAPER if name == "paper" else _PRESENTATION),
-        "text.usetex": latex,
-    }
+    values = {**_COMMON, **(_PAPER if name == "paper" else _PRESENTATION)}
     params = mpl.RcParams()
     # Matplotlib validates every key and value at runtime. Its private RcKeyType
     # is intentionally narrower than ``str``, so a cast is needed at this typed
@@ -100,15 +88,13 @@ def settings(name: StyleName = "paper", *, latex: bool | None = None) -> mpl.RcP
     return params
 
 
-def use(name: StyleName = "paper", *, latex: bool | None = None) -> None:
+def use(name: StyleName = "paper") -> None:
     """Apply a style globally."""
-    mpl.rcParams.update(settings(name, latex=latex))
+    mpl.rcParams.update(settings(name))
 
 
 @contextmanager
-def context(
-    name: StyleName = "paper", *, latex: bool | None = None
-) -> Generator[None, None, None]:
+def context(name: StyleName = "paper") -> Generator[None, None, None]:
     """Temporarily apply a style."""
-    with mpl.rc_context(settings(name, latex=latex)):
+    with mpl.rc_context(settings(name)):
         yield

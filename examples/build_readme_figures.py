@@ -18,7 +18,7 @@ OUTPUT = Path(__file__).parent
 def build(name: str) -> None:
     rng = np.random.default_rng(7)
     x = np.linspace(0, 2 * np.pi, 120)
-    with rosen_style.context(name, latex=False):
+    with rosen_style.context(name):
         # Line plot with redundant color, marker, and label encodings.
         figure, axes = plt.subplots()
         for phase, label, marker in zip(
