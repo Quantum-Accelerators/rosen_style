@@ -1,6 +1,6 @@
 # rosen_style
 
-Consistent, readable Matplotlib defaults for Rosen research-group papers and presentations.
+Consistent, readable Matplotlib defaults for Rosen Research Group papers and presentations.
 
 ## Install
 
