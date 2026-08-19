@@ -15,7 +15,7 @@ def test_paper_has_readable_type_and_minor_ticks():
     assert style["axes.grid"] is False
     assert style["xtick.minor.visible"] is True
     assert style["ytick.minor.visible"] is True
-    assert style["image.cmap"] == "viridis"
+    assert style["image.cmap"] == "plasma"
 
 
 def test_presentation_is_larger_than_paper():

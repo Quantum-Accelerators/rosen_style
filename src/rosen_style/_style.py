@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import shutil
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import matplotlib as mpl
+from cycler import cycler
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Generator
 
 StyleName = Literal["paper", "presentation"]
 COLOR_CYCLE = (
@@ -28,7 +29,7 @@ _COMMON: dict[str, object] = {
     "axes.facecolor": "white",
     "axes.grid": False,
     "axes.labelcolor": "#222222",
-    "axes.prop_cycle": mpl.cycler(color=COLOR_CYCLE),
+    "axes.prop_cycle": cycler(color=COLOR_CYCLE),
     "axes.spines.right": False,
     "axes.spines.top": False,
     "axes.titlelocation": "left",
@@ -36,7 +37,7 @@ _COMMON: dict[str, object] = {
     "figure.constrained_layout.use": True,
     "font.family": "serif",
     "font.serif": ["Computer Modern Roman", "DejaVu Serif"],
-    "image.cmap": "viridis",
+    "image.cmap": "plasma",
     "legend.frameon": False,
     "savefig.bbox": "tight",
     "savefig.facecolor": "white",
@@ -79,20 +80,24 @@ def latex_available() -> bool:
     return shutil.which("latex") is not None
 
 
-def settings(
-    name: StyleName = "paper", *, latex: bool | None = None
-) -> dict[str, object]:
+def settings(name: StyleName = "paper", *, latex: bool | None = None) -> mpl.RcParams:
     """Return style rcParams without modifying global Matplotlib state."""
     if name not in ("paper", "presentation"):
         msg = f"Unknown style {name!r}; expected 'paper' or 'presentation'"
         raise ValueError(msg)
     if latex is None:
         latex = latex_available()
-    return {
+    values = {
         **_COMMON,
         **(_PAPER if name == "paper" else _PRESENTATION),
         "text.usetex": latex,
     }
+    params = mpl.RcParams()
+    # Matplotlib validates every key and value at runtime. Its private RcKeyType
+    # is intentionally narrower than ``str``, so a cast is needed at this typed
+    # boundary for a dynamically assembled style dictionary.
+    params.update(cast("Any", values))
+    return params
 
 
 def use(name: StyleName = "paper", *, latex: bool | None = None) -> None:
@@ -101,7 +106,9 @@ def use(name: StyleName = "paper", *, latex: bool | None = None) -> None:
 
 
 @contextmanager
-def context(name: StyleName = "paper", *, latex: bool | None = None) -> Iterator[None]:
+def context(
+    name: StyleName = "paper", *, latex: bool | None = None
+) -> Generator[None, None, None]:
     """Temporarily apply a style."""
     with mpl.rc_context(settings(name, latex=latex)):
         yield
