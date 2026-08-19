@@ -70,17 +70,6 @@ CI regenerates and commits these images when their source or the styles change.
 
 For publication-ready atomic structures, we recommend [Pretty Lattice](https://github.com/songfeitong/pretty-lattice) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
 
-## Development
-
-```bash
-pip install -e .[dev]
-pytest
-python examples/build_readme_figures.py
-ruff check .
-```
-
-The test suite renders both styles without external system dependencies.
-
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)

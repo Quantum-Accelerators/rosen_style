@@ -30,8 +30,11 @@ def build(name: str) -> None:
             y = np.sin(x + phase) + rng.normal(0, 0.06, x.size)
             axes.plot(x, y, label=label, marker=marker, markevery=15)
         axes.set(xlabel="Time (s)", ylabel="Response (a.u.)")
-        axes.legend()
-        figure.savefig(OUTPUT / f"{name}.png", dpi=150)
+        figure.set_figheight(figure.get_figheight() * 1.35)
+        lower, upper = axes.get_ylim()
+        axes.set_ylim(lower, upper + 0.5 * (upper - lower))
+        axes.legend(loc="upper left")
+        figure.savefig(OUTPUT / f"{name}.png")
         plt.close(figure)
 
         # Scatter plot with uncertainty encoded by point size.
@@ -46,8 +49,11 @@ def build(name: str) -> None:
             response = 0.65 * values + rng.normal(0, 0.35, values.size)
             axes.scatter(values, response, label=label, marker=marker, alpha=0.8)
         axes.set(xlabel="Predictor (a.u.)", ylabel="Response (a.u.)")
-        axes.legend()
-        figure.savefig(OUTPUT / f"{name}_scatter.png", dpi=150)
+        figure.set_figheight(figure.get_figheight() * 1.35)
+        lower, upper = axes.get_ylim()
+        axes.set_ylim(lower, upper + 0.5 * (upper - lower))
+        axes.legend(loc="upper left")
+        figure.savefig(OUTPUT / f"{name}_scatter.png")
         plt.close(figure)
 
         # Bar plot using a restrained subset of the categorical palette.
@@ -58,7 +64,9 @@ def build(name: str) -> None:
         axes.set(ylabel="Accuracy")
         axes.set_ylim(0, 1)
         axes.minorticks_off()
-        figure.savefig(OUTPUT / f"{name}_bar.png", dpi=150)
+        axes.tick_params(axis="x", pad=6, labelrotation=30)
+        plt.setp(axes.get_xticklabels(), horizontalalignment="right")
+        figure.savefig(OUTPUT / f"{name}_bar.png")
         plt.close(figure)
 
         # Heatmap using the default perceptually uniform sequential colormap.
@@ -71,7 +79,7 @@ def build(name: str) -> None:
         axes.set(xlabel=r"Position $x$", ylabel=r"Position $y$")
         colorbar = figure.colorbar(image, ax=axes)
         colorbar.set_label("Intensity (a.u.)")
-        figure.savefig(OUTPUT / f"{name}_heatmap.png", dpi=150)
+        figure.savefig(OUTPUT / f"{name}_heatmap.png")
         plt.close(figure)
 
 
