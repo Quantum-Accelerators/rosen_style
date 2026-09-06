@@ -46,17 +46,6 @@ Outside the `with` block, Matplotlib's previous settings are restored. Mathemati
 
 The defaults use 600 DPI for display and saved output, a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, transparent saved backgrounds, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
 
-### Visual design choices
-
-- **Typography:** both styles use bundled DejaVu Sans text and matching sans serif math for consistent typography across machines.
-- **Paper:** 1.4-point lines and 4-point markers keep overlapping traces legible at single-column size. Minor ticks are shorter and lighter than major ticks.
-- **Presentation:** longer, thicker major ticks and increased label spacing balance the larger type at slide scale.
-- **Legends:** the examples place legends above the axes so they do not cover observations or require artificially expanded data limits. Marker shapes identify series as well as color.
-- **Categories:** horizontal bars keep labels upright, with a zero baseline and one color for a single quantity.
-- **Spatial data:** the heatmap uses equal aspect so equal distances on the two axes remain equal on screen. Choose `aspect="auto"` only when the axes do not represent comparable spatial units.
-
-These are starting points: inspect figures at their final printed or projected size. Transparent exports assume a light background; use `fig.savefig("slide.png", transparent=False, facecolor="white")` when inserting a figure onto a dark slide. For crisp scalable output, save as PDF or SVG instead of PNG.
-
 ## Examples
 
 Line plot:
@@ -75,20 +64,10 @@ Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
 
-Presentation typography and spacing:
-
-![Presentation line plot](examples/presentation.png)
-
 CI regenerates and commits these images when their source or the styles change.
-
-## Structure visualization
-
-For publication-ready atomic structures, we recommend [Pretty Lattice](https://github.com/songfeitong/pretty-lattice) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
 
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
-- [Redundant coding: combine color with shapes or line styles](https://clauswilke.com/dataviz/redundant-coding.html)
-- [Matplotlib style parameters and font configuration](https://matplotlib.org/stable/users/explain/customizing.html)
 
 There are also many excellent Python examples on [The Python Graph Gallery](https://www.python-graph-gallery.com/) and [Python Charts](https://python-charts.com/) websites. For what not to do, check out the "[Friends Don't Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends)" repository.
