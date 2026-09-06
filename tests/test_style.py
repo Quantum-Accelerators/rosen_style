@@ -52,6 +52,26 @@ def test_styles_render(tmp_path):
         assert (tmp_path / f"{name}.png").stat().st_size > 0
 
 
+def test_switching_to_paper_resets_presentation_typography_and_spacing():
+    keys = (
+        "font.family",
+        "mathtext.fontset",
+        "axes.labelpad",
+        "xtick.major.pad",
+        "ytick.major.pad",
+        "xtick.major.size",
+        "ytick.major.size",
+        "xtick.major.width",
+        "ytick.major.width",
+    )
+    with mpl.rc_context():
+        rosen_style.use("paper")
+        expected = {key: mpl.rcParams[key] for key in keys}
+        rosen_style.use("presentation")
+        rosen_style.use("paper")
+        assert {key: mpl.rcParams[key] for key in keys} == expected
+
+
 def test_unknown_style_is_rejected():
     with pytest.raises(ValueError, match="Unknown style"):
         rosen_style.settings("cow")
