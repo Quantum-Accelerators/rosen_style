@@ -66,10 +66,6 @@ Heatmap with a perceptually uniform color scale:
 
 CI regenerates and commits these images when their source or the styles change.
 
-## Structure visualization
-
-For publication-ready atomic structures, we recommend [Pretty Lattice](https://github.com/songfeitong/pretty-lattice) for periodic materials and [xyzrender](https://github.com/aligfellow/xyzrender) for molecules.
-
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
