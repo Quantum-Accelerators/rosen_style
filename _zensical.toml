@@ -8,6 +8,7 @@ use_directory_urls = false
 
 nav = [
     { "Home" = "index.md" },
+    { "Scientific figure guide" = "figure-guide.md" },
     { "Overview" = [
         "example_docs/intro/why.md",
         "example_docs/intro/resources.md"

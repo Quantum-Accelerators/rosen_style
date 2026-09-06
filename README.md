@@ -44,7 +44,11 @@ with rosen_style.context("paper", columns=2):
 
 Outside the `with` block, Matplotlib's previous settings are restored. Mathematical notation such as `r"Position $x$"` is rendered by Matplotlib's built-in MathText engine and requires no external typesetting installation.
 
-The defaults use 600 DPI for display and saved output, a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, transparent saved backgrounds, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
+The defaults use 600 DPI for display and saved output, a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, white saved backgrounds, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
+
+Prefer `fig.savefig("response.pdf")` for publication: PDF/PS exports embed TrueType fonts, and SVG exports retain editable text (the viewing system needs the font installed). Saved backgrounds now default to white to preserve contrast; use `transparent=True` in `savefig` when transparency is intended.
+
+See the [scientific figure guide](docs/figure-guide.md) for source-backed design choices, final-size checks, journal overrides, uncertainty, diverging color scales, and export advice. The presets are group defaults, not journal-specific submission specifications.
 
 ## Examples
 
@@ -64,10 +68,20 @@ Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
 
-CI regenerates and commits these images when their source or the styles change.
+Observations with mean ± one sample SD (synthetic data, 12 observations per group; these intervals show spread, not confidence intervals):
+
+![Paper observations and standard deviations](examples/paper_uncertainty.png)
+
+Signed residuals with a diverging scale centered at zero:
+
+![Paper diverging heatmap](examples/paper_diverging.png)
+
+CI builds these images for pull requests and commits regenerated images after changes reach `main`.
 
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
+- [Nature research figure specifications](https://research-figure-guide.nature.com/figures/preparing-figures-our-specifications/)
+- [Rougier, Droettboom & Bourne, *Ten Simple Rules for Better Figures*](https://doi.org/10.1371/journal.pcbi.1003833)
 
 There are also many excellent Python examples on [The Python Graph Gallery](https://www.python-graph-gallery.com/) and [Python Charts](https://python-charts.com/) websites. For what not to do, check out the "[Friends Don't Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends)" repository.

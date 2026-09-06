@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import io
+import xml.etree.ElementTree as ET
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pytest
+from PIL import Image
 
 import rosen_style
 
@@ -80,3 +84,41 @@ def test_unknown_style_is_rejected():
 def test_unknown_paper_column_count_is_rejected():
     with pytest.raises(ValueError, match="column count"):
         rosen_style.settings("paper", columns=3)
+
+
+@pytest.mark.parametrize("name", ["paper", "presentation"])
+def test_exports_preserve_text_and_background(name):
+    # Start from conflicting settings to check the applied style, not just defaults.
+    with mpl.rc_context({"savefig.facecolor": "black", "text.usetex": True}):
+        with rosen_style.context(name):
+            fig, ax = plt.subplots()
+            ax.plot([0, 1], [0, 1])
+            ax.set(xlabel="Time (s)", ylabel=r"Response $x^2$")
+            try:
+                pdf = io.BytesIO()
+                fig.savefig(pdf, format="pdf")
+                assert b"/FontFile2" in pdf.getvalue()
+                assert b"/Subtype /Type3" not in pdf.getvalue()
+
+                svg = io.BytesIO()
+                fig.savefig(svg, format="svg")
+                root = ET.fromstring(svg.getvalue())
+                texts = root.findall(".//{http://www.w3.org/2000/svg}text")
+                assert any("Time (s)" in "".join(text.itertext()) for text in texts)
+
+                for transparent in (False, True):
+                    png = io.BytesIO()
+                    # Omit the flag for the default-background regression check.
+                    kwargs = {"transparent": True} if transparent else {}
+                    fig.savefig(png, format="png", dpi=72, **kwargs)
+                    png.seek(0)
+                    with Image.open(png) as image:
+                        pixel = image.convert("RGBA").getpixel((0, 0))
+                        if transparent:
+                            assert pixel[3] == 0
+                        else:
+                            assert pixel == (255, 255, 255, 255)
+            finally:
+                plt.close(fig)
+        assert mpl.rcParams["text.usetex"] is True
+        assert mpl.rcParams["savefig.facecolor"] == "black"

@@ -1,5 +1,21 @@
 # rosen_style
 
-Welcome to the documentation for the `rosen_style` code! Here you will find everything you need to get started with your own Python package.
+Readable Matplotlib defaults for Rosen Research Group papers and presentations.
 
-**Check out the corresponding ⭐[YouTube tutorial](https://www.youtube.com/watch?v=th2CqJ6oBuM)⭐ for a video overview!**
+```python
+import matplotlib.pyplot as plt
+import rosen_style
+
+with rosen_style.context("paper"):
+    fig, ax = plt.subplots()
+    ax.plot([0, 1, 2], [0, 1, 0], marker="o")
+    ax.set(xlabel="Time (s)", ylabel="Response (a.u.)")
+    fig.savefig("response.pdf")
+```
+
+Install with `pip install git+https://github.com/Quantum-Accelerators/rosen_style.git`.
+Use `"presentation"` for slides or `columns=2` for a double-column paper figure.
+The context manager restores your previous Matplotlib settings on exit.
+
+Read the [scientific figure guide](figure-guide.md) for design rationale,
+accessible encoding, uncertainty, and publication export advice.
