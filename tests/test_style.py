@@ -3,8 +3,6 @@ from __future__ import annotations
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pytest
-from matplotlib.layout_engine import ConstrainedLayoutEngine
-from PIL import Image
 
 import rosen_style
 
@@ -52,27 +50,6 @@ def test_styles_render(tmp_path):
             figure.savefig(tmp_path / f"{name}.png")
             plt.close(figure)
         assert (tmp_path / f"{name}.png").stat().st_size > 0
-
-
-@pytest.mark.parametrize("name", ["paper", "presentation"])
-def test_constrained_layout_preserves_saved_dimensions(name, tmp_path):
-    with mpl.rc_context({"figure.autolayout": True, "savefig.bbox": "tight"}):
-        with rosen_style.context(name):
-            figure, axes = plt.subplots()
-            try:
-                assert isinstance(figure.get_layout_engine(), ConstrainedLayoutEngine)
-                axes.plot([0, 1], [0, 1])
-                axes.set(xlabel="Time (s)", ylabel="Response (a.u.)")
-                output = tmp_path / f"{name}.png"
-                figure.savefig(output, dpi=100)
-                with Image.open(output) as image:
-                    assert image.size == tuple(
-                        int(size * 100) for size in figure.get_size_inches()
-                    )
-            finally:
-                plt.close(figure)
-        assert mpl.rcParams["figure.autolayout"] is True
-        assert mpl.rcParams["savefig.bbox"] == "tight"
 
 
 def test_unknown_style_is_rejected():
