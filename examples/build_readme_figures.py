@@ -37,22 +37,28 @@ def build(name: str) -> None:
         figure.savefig(OUTPUT / f"{name}.png")
         plt.close(figure)
 
-        # Square scatter plot with redundant color and shape encodings.
+        # Parity plot with identical limits and scale on both axes.
         with rosen_style.context(name, square=True):
             figure, axes = plt.subplots()
-            for offset, label, marker in zip(
-                (0.0, 0.7, 1.4),
+            for bias, noise, label, marker in zip(
+                (0.0, 0.12, -0.12),
+                (0.12, 0.18, 0.22),
                 ("control", "method A", "method B"),
                 ("o", "s", "^"),
                 strict=True,
             ):
-                values = rng.normal(offset, 0.45, 35)
-                response = 0.65 * values + rng.normal(0, 0.35, values.size)
-                axes.scatter(values, response, label=label, marker=marker, alpha=0.8)
-            axes.set(xlabel="Predictor (a.u.)", ylabel="Response (a.u.)")
-            axes.set_box_aspect(1)
-            lower, upper = axes.get_ylim()
-            axes.set_ylim(lower, upper + 0.5 * (upper - lower))
+                actual = rng.uniform(0, 2.5, 35)
+                predicted = actual + bias + rng.normal(0, noise, actual.size)
+                axes.scatter(actual, predicted, label=label, marker=marker, alpha=0.8)
+            limits = (-0.25, 2.75)
+            axes.plot(limits, limits, color="#555555", linestyle="--", label="parity")
+            axes.set(
+                xlabel="Actual (a.u.)",
+                ylabel="Predicted (a.u.)",
+                xlim=limits,
+                ylim=limits,
+                aspect="equal",
+            )
             axes.legend(loc="upper left")
             figure.savefig(OUTPUT / f"{name}_scatter.png")
             plt.close(figure)
