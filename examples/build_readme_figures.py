@@ -77,7 +77,11 @@ def build(name: str) -> None:
             axes.set(xlabel=r"Position $x$", ylabel=r"Position $y$")
             colorbar = figure.colorbar(image, ax=axes, shrink=0.6, aspect=30)
             colorbar.set_label("Intensity (a.u.)")
-            figure.savefig(OUTPUT / f"{name}_heatmap.png")
+            figure.savefig(
+                OUTPUT / f"{name}_heatmap.png",
+                bbox_inches="tight",
+                pad_inches=0.05,
+            )
             plt.close(figure)
 
 
