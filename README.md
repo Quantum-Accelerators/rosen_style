@@ -54,7 +54,7 @@ Line plot:
 
 ![Paper line plot](examples/paper.png)
 
-Scatter plot:
+Scatter plot (with `square=True`):
 
 ![Paper scatter plot](examples/paper_scatter.png)
 
