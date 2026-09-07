@@ -6,4 +6,4 @@ from importlib.metadata import version
 
 __version__ = version("rosen_style")
 
-from ._style import COLOR_CYCLE, context, paper_size, settings, use
+from rosen_style._style import COLOR_CYCLE, context, paper_size, settings, use

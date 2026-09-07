@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.10", "3.13"]
+        python-version: ["3.11", "3.14"]
 
     defaults:
       run:
@@ -51,7 +51,7 @@ jobs:
         run: pytest --cov=rosen_style --cov-report=xml
 
       - name: Build README figures
-        if: matrix.python-version == '3.13'
+        if: matrix.python-version == '3.14'
         run: python examples/build_readme_figures.py
 
 
