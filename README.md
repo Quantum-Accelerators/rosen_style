@@ -58,10 +58,6 @@ Scatter plot (with `square=True`):
 
 ![Paper scatter plot](examples/paper_scatter.png)
 
-Bar plot:
-
-![Paper bar plot](examples/paper_bar.png)
-
 Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
