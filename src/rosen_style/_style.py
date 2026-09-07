@@ -100,23 +100,30 @@ _PRESENTATION: dict[str, object] = {
 }
 
 
-def paper_size(columns: PaperColumns = 1) -> tuple[float, float]:
+def paper_size(
+    columns: PaperColumns = 1, *, square: bool = False
+) -> tuple[float, float]:
     """Return a journal figure size for one or two columns."""
     if columns not in (1, 2):
         msg = f"Unknown paper column count {columns!r}; expected 1 or 2"
         raise ValueError(msg)
     width = 3.25 if columns == 1 else 7.0
-    return width, width / _GOLDEN_RATIO
+    return width, width if square else width / _GOLDEN_RATIO
 
 
-def settings(name: StyleName = "paper", *, columns: PaperColumns = 1) -> mpl.RcParams:
+def settings(
+    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
+) -> mpl.RcParams:
     """Return style rcParams without modifying global Matplotlib state."""
     if name not in ("paper", "presentation"):
         msg = f"Unknown style {name!r}; expected 'paper' or 'presentation'"
         raise ValueError(msg)
     values = {**_COMMON, **(_PAPER if name == "paper" else _PRESENTATION)}
     if name == "paper":
-        values["figure.figsize"] = paper_size(columns)
+        values["figure.figsize"] = paper_size(columns, square=square)
+    elif square:
+        width = cast("tuple[float, float]", values["figure.figsize"])[0]
+        values["figure.figsize"] = (width, width)
     params = mpl.RcParams()
     # Matplotlib validates every key and value at runtime. Its private RcKeyType
     # is intentionally narrower than ``str``, so a cast is needed at this typed
@@ -125,15 +132,17 @@ def settings(name: StyleName = "paper", *, columns: PaperColumns = 1) -> mpl.RcP
     return params
 
 
-def use(name: StyleName = "paper", *, columns: PaperColumns = 1) -> None:
+def use(
+    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
+) -> None:
     """Apply a style globally."""
-    mpl.rcParams.update(settings(name, columns=columns))
+    mpl.rcParams.update(settings(name, columns=columns, square=square))
 
 
 @contextmanager
 def context(
-    name: StyleName = "paper", *, columns: PaperColumns = 1
+    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
 ) -> Generator[None, None, None]:
     """Temporarily apply a style."""
-    with mpl.rc_context(settings(name, columns=columns)):
+    with mpl.rc_context(settings(name, columns=columns, square=square)):
         yield

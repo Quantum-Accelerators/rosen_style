@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import version
 
-try:
-    __version__ = version("rosen_style")
-except PackageNotFoundError:  # Running directly from a source checkout.
-    __version__ = "0.0.1"
+__version__ = version("rosen_style")
 
-from ._style import COLOR_CYCLE, context, paper_size, settings, use
+from rosen_style._style import COLOR_CYCLE, context, paper_size, settings, use
