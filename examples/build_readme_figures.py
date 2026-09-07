@@ -63,18 +63,6 @@ def build(name: str) -> None:
             figure.savefig(OUTPUT / f"{name}_scatter.png")
             plt.close(figure)
 
-        # Vertical bars with a zero baseline and readable category labels.
-        figure, axes = plt.subplots()
-        categories = ("Baseline", "Method A", "Method B", "Method C")
-        values = (0.42, 0.68, 0.81, 0.74)
-        axes.bar(categories, values)
-        axes.set(ylabel="Accuracy", ylim=(0, 1))
-        axes.minorticks_off()
-        axes.tick_params(axis="x", pad=6, labelrotation=30)
-        plt.setp(axes.get_xticklabels(), horizontalalignment="right")
-        figure.savefig(OUTPUT / f"{name}_bar.png")
-        plt.close(figure)
-
         # Square heatmap using the default perceptually uniform sequential colormap.
         with rosen_style.context(name, square=True):
             figure, axes = plt.subplots()
