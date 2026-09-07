@@ -68,23 +68,25 @@ def build(name: str) -> None:
         figure.savefig(OUTPUT / f"{name}_bar.png")
         plt.close(figure)
 
-        # Heatmap using the default perceptually uniform sequential colormap.
-        figure, axes = plt.subplots()
-        xx, yy = np.meshgrid(np.linspace(-2, 2, 100), np.linspace(-2, 2, 80))
-        field = np.exp(-(xx**2 + yy**2)) + 0.5 * np.exp(
-            -((xx - 1.1) ** 2 + (yy + 0.8) ** 2) / 0.25
-        )
-        # Equal spatial units must have equal visual lengths.
-        image = axes.imshow(
-            field, extent=(-2, 2, -2, 2), origin="lower", aspect="equal"
-        )
-        axes.set(xlabel=r"Position $x$", ylabel=r"Position $y$")
-        colorbar = figure.colorbar(image, ax=axes)
-        colorbar.set_label("Intensity (a.u.)")
-        figure.savefig(OUTPUT / f"{name}_heatmap.png")
-        plt.close(figure)
+        # Square heatmap using the default perceptually uniform sequential colormap.
+        with rosen_style.context(name, square=True):
+            figure, axes = plt.subplots()
+            xx, yy = np.meshgrid(np.linspace(-2, 2, 100), np.linspace(-2, 2, 80))
+            field = np.exp(-(xx**2 + yy**2)) + 0.5 * np.exp(
+                -((xx - 1.1) ** 2 + (yy + 0.8) ** 2) / 0.25
+            )
+            # Equal spatial units must have equal visual lengths.
+            image = axes.imshow(
+                field, extent=(-2, 2, -2, 2), origin="lower", aspect="equal"
+            )
+            axes.set(xlabel=r"Position $x$", ylabel=r"Position $y$")
+            colorbar = figure.colorbar(image, ax=axes)
+            colorbar.set_label("Intensity (a.u.)")
+            figure.savefig(OUTPUT / f"{name}_heatmap.png")
+            plt.close(figure)
 
 
 if __name__ == "__main__":
     build("paper")
     build("presentation")
+

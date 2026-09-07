@@ -42,6 +42,8 @@ with rosen_style.context("paper", columns=2):
     fig.savefig("double-column.png")
 ```
 
+Pass `square=True` for equal figure width and height, which is useful for parity plots and heatmaps. See the [main Matplotlib settings](src/rosen_style/_style.py) for the complete defaults.
+
 Outside the `with` block, Matplotlib's previous settings are restored. Mathematical notation such as `r"Position $x$"` is rendered by Matplotlib's built-in MathText engine and requires no external typesetting installation.
 
 The defaults use 600 DPI for display and saved output, a color-vision-friendly categorical cycle, the perceptually uniform `plasma` image colormap, readable labels, white saved backgrounds, no grid lines, and minor ticks in paper mode. Figure titles are intentionally left to captions or surrounding presentation content. Pair color with markers, line styles, or direct labels when it carries meaning.
@@ -71,3 +73,4 @@ CI regenerates and commits these images when their source or the styles change.
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
 
 There are also many excellent Python examples on [The Python Graph Gallery](https://www.python-graph-gallery.com/) and [Python Charts](https://python-charts.com/) websites. For what not to do, check out the "[Friends Don't Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends)" repository.
+

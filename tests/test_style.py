@@ -31,6 +31,7 @@ def test_paper_column_widths_and_aspect_ratio():
     assert double["figure.figsize"][0] == 7.0
     assert single["figure.figsize"][1] == pytest.approx(3.25 / ((1 + 5**0.5) / 2))
     assert double["figure.figsize"][1] == pytest.approx(7.0 / ((1 + 5**0.5) / 2))
+    assert rosen_style.settings("paper", square=True)["figure.figsize"] == [3.25, 3.25]
 
 
 def test_context_restores_matplotlib_settings():
@@ -80,3 +81,4 @@ def test_unknown_style_is_rejected():
 def test_unknown_paper_column_count_is_rejected():
     with pytest.raises(ValueError, match="column count"):
         rosen_style.settings("paper", columns=3)
+
