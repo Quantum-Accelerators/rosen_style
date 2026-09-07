@@ -146,4 +146,3 @@ def context(
     """Temporarily apply a style."""
     with mpl.rc_context(settings(name, columns=columns, square=square)):
         yield
-

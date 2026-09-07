@@ -81,4 +81,3 @@ def test_unknown_style_is_rejected():
 def test_unknown_paper_column_count_is_rejected():
     with pytest.raises(ValueError, match="column count"):
         rosen_style.settings("paper", columns=3)
-

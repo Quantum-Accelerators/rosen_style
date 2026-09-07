@@ -89,4 +89,3 @@ def build(name: str) -> None:
 if __name__ == "__main__":
     build("paper")
     build("presentation")
-

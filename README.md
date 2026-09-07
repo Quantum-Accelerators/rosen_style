@@ -73,4 +73,3 @@ CI regenerates and commits these images when their source or the styles change.
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
 
 There are also many excellent Python examples on [The Python Graph Gallery](https://www.python-graph-gallery.com/) and [Python Charts](https://python-charts.com/) websites. For what not to do, check out the "[Friends Don't Let Friends Make Bad Graphs](https://github.com/cxli233/FriendsDontLetFriends)" repository.
-
