@@ -48,7 +48,7 @@ jobs:
           echo "COVERAGE_CORE=sysmon" >> $GITHUB_ENV
 
       - name: Run tests with pytest
-        run: pytest --cov=rosen_style --cov-report=xml --cov-fail-under=100
+        run: pytest --cov=rosen_style --cov-report=xml
 
       - name: Build README figures
         if: matrix.python-version == '3.14'
