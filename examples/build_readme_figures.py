@@ -85,7 +85,6 @@ def build(name: str) -> None:
         plt.close(figure)
 
 
-
 if __name__ == "__main__":
     build("paper")
     build("presentation")
