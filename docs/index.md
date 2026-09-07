@@ -17,5 +17,3 @@ Install with `pip install git+https://github.com/Quantum-Accelerators/rosen_styl
 Use `"presentation"` for slides or `columns=2` for a double-column paper figure.
 The context manager restores your previous Matplotlib settings on exit.
 
-Read the [scientific figure guide](figure-guide.md) for design rationale,
-accessible encoding, uncertainty, and publication export advice.
