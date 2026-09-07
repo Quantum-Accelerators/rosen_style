@@ -9,7 +9,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -54,12 +54,6 @@ jobs:
         if: matrix.python-version == '3.13'
         run: python examples/build_readme_figures.py
 
-      - name: Commit updated README figures
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.python-version == '3.13'
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          commit_message: "docs: update generated example figures"
-          file_pattern: examples/*.png
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
