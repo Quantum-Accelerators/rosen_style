@@ -22,6 +22,10 @@ def test_presentation_is_larger_than_paper():
     assert presentation["font.size"] > paper["font.size"]
     assert presentation["axes.labelsize"] > paper["axes.labelsize"]
     assert presentation["figure.figsize"][0] > paper["figure.figsize"][0]
+    assert rosen_style.settings("presentation", square=True)["figure.figsize"] == [
+        12.0,
+        12.0,
+    ]
 
 
 def test_paper_column_widths_and_aspect_ratio():
