@@ -37,24 +37,24 @@ def build(name: str) -> None:
         figure.savefig(OUTPUT / f"{name}.png")
         plt.close(figure)
 
-        # Scatter plot with redundant color and shape encodings.
-        figure, axes = plt.subplots()
-        for offset, label, marker in zip(
-            (0.0, 0.7, 1.4),
-            ("control", "method A", "method B"),
-            ("o", "s", "^"),
-            strict=True,
-        ):
-            values = rng.normal(offset, 0.45, 35)
-            response = 0.65 * values + rng.normal(0, 0.35, values.size)
-            axes.scatter(values, response, label=label, marker=marker, alpha=0.8)
-        axes.set(xlabel="Predictor (a.u.)", ylabel="Response (a.u.)")
-        figure.set_figheight(figure.get_figheight() * 1.35)
-        lower, upper = axes.get_ylim()
-        axes.set_ylim(lower, upper + 0.5 * (upper - lower))
-        axes.legend(loc="upper left")
-        figure.savefig(OUTPUT / f"{name}_scatter.png")
-        plt.close(figure)
+        # Square scatter plot with redundant color and shape encodings.
+        with rosen_style.context(name, square=True):
+            figure, axes = plt.subplots()
+            for offset, label, marker in zip(
+                (0.0, 0.7, 1.4),
+                ("control", "method A", "method B"),
+                ("o", "s", "^"),
+                strict=True,
+            ):
+                values = rng.normal(offset, 0.45, 35)
+                response = 0.65 * values + rng.normal(0, 0.35, values.size)
+                axes.scatter(values, response, label=label, marker=marker, alpha=0.8)
+            axes.set(xlabel="Predictor (a.u.)", ylabel="Response (a.u.)")
+            lower, upper = axes.get_ylim()
+            axes.set_ylim(lower, upper + 0.5 * (upper - lower))
+            axes.legend(loc="upper left")
+            figure.savefig(OUTPUT / f"{name}_scatter.png")
+            plt.close(figure)
 
         # Vertical bars with a zero baseline and readable category labels.
         figure, axes = plt.subplots()
