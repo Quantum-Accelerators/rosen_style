@@ -50,6 +50,7 @@ def build(name: str) -> None:
                 response = 0.65 * values + rng.normal(0, 0.35, values.size)
                 axes.scatter(values, response, label=label, marker=marker, alpha=0.8)
             axes.set(xlabel="Predictor (a.u.)", ylabel="Response (a.u.)")
+            axes.set_box_aspect(1)
             lower, upper = axes.get_ylim()
             axes.set_ylim(lower, upper + 0.5 * (upper - lower))
             axes.legend(loc="upper left")
