@@ -84,57 +84,6 @@ def build(name: str) -> None:
         figure.savefig(OUTPUT / f"{name}_heatmap.png")
         plt.close(figure)
 
-        # Show observations as well as a clearly defined spread interval.
-        figure, axes = plt.subplots()
-        samples = rng.normal(loc=[0.4, 0.7, 0.9], scale=0.12, size=(12, 3))
-        for index, values in enumerate(samples.T):
-            jitter = rng.uniform(-0.12, 0.12, values.size)
-            axes.scatter(
-                index + jitter,
-                values,
-                color="0.6",
-                alpha=0.7,
-                label="Observations" if index == 0 else None,
-            )
-        axes.errorbar(
-            np.arange(3),
-            samples.mean(axis=0),
-            yerr=samples.std(axis=0, ddof=1),
-            fmt="o",
-            color="black",
-            capsize=3,
-            label="Mean ± SD",
-        )
-        axes.set(
-            xticks=np.arange(3),
-            xticklabels=["Control", "A", "B"],
-            ylabel="Response (a.u.)",
-            xlim=(-0.5, 2.5),
-        )
-        axes.minorticks_off()
-        figure.set_figheight(figure.get_figheight() * 1.35)
-        lower, upper = axes.get_ylim()
-        axes.set_ylim(lower, upper + 0.35 * (upper - lower))
-        axes.legend(loc="upper left")
-        figure.savefig(OUTPUT / f"{name}_uncertainty.png")
-        plt.close(figure)
-
-        # A shared symmetric scale gives equal weight to signed deviations.
-        figure, axes = plt.subplots()
-        residuals = np.array([[-2, -1, 0, 1], [1, 0, -1, 2], [-1, 2, 1, -2]])
-        image = axes.imshow(
-            residuals,
-            cmap="BrBG",
-            norm=mpl.colors.CenteredNorm(vcenter=0, halfrange=2),
-            interpolation="nearest",
-        )
-        axes.set(
-            xticks=np.arange(4), yticks=np.arange(3), xlabel="Sample", ylabel="Run"
-        )
-        axes.minorticks_off()
-        figure.colorbar(image, ax=axes, label="Residual (a.u.)")
-        figure.savefig(OUTPUT / f"{name}_diverging.png")
-        plt.close(figure)
 
 
 if __name__ == "__main__":
