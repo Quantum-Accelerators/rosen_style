@@ -81,22 +81,6 @@ with rosen_style.context("paper", wide=True):
 
 ![Paper figure with four subpanels](examples/paper_subpanels.png)
 
-The [complete example](examples/subpanels.py) adds panel labels, distinct
-markers and line styles, and a legend. Run `python examples/subpanels.py`
-to save PNG and PDF versions.
-
-Constrained layout is already enabled and reserves space for axis labels and
-ticks. Choose a large enough canvas for the number of panels: the default
-3.25-inch paper width is intended for a single column, and adding subplots does
-not automatically enlarge it. Use `fig.set_figheight(...)` for additional rows
-or `fig.set_size_inches(...)` for a custom canvas. Presentation mode also
-supports subpanels, using its larger typography and canvas; `wide` has no effect
-in presentation mode because its canvas is already wide. Shared axes and
-`ax.label_outer()` help avoid repeated labels when panels use the same units.
-Save without `bbox_inches="tight"` when exact physical dimensions matter.
-
-Run `python examples/build_readme_figures.py` to regenerate all README images.
-
 ## Design references
 
 - [Claus O. Wilke, *Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/)
