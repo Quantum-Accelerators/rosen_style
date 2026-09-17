@@ -16,7 +16,7 @@ import rosen_style
 @pytest.mark.parametrize("name", ["paper", "presentation"])
 @pytest.mark.parametrize("shape", [(1, 2), (2, 2)])
 def test_subpanels_fit_and_preserve_export_size(name, shape, tmp_path):
-    with rosen_style.context(name, columns=2):
+    with rosen_style.context(name, wide=True):
         figure, axes = plt.subplots(*shape, sharex=True, sharey=True, squeeze=False)
         try:
             for index, ax in enumerate(axes.flat):

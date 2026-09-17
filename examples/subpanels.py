@@ -20,8 +20,8 @@ import rosen_style
 def build(output: Path = Path(__file__).parent) -> None:
     """Save a 7-inch-wide figure without changing its physical export size."""
     x = np.linspace(0, 2 * np.pi, 120)
-    # columns sets the journal width; ncols sets the number of subplot columns.
-    with rosen_style.context("paper", columns=2):
+    # wide sets the canvas width; ncols sets the number of subplot columns.
+    with rosen_style.context("paper", wide=True):
         figure, axes = plt.subplots(2, 2, sharex=True, sharey=True)
         for ax, phase, panel in zip(
             axes.flat, (0.0, 0.4, 0.8, 1.2), ("(a)", "(b)", "(c)", "(d)"), strict=True

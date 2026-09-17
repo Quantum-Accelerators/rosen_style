@@ -28,14 +28,20 @@ def test_presentation_is_larger_than_paper():
     ]
 
 
-def test_paper_column_widths_and_aspect_ratio():
+def test_paper_widths_and_aspect_ratio():
     single = rosen_style.settings("paper")
-    double = rosen_style.settings("paper", columns=2)
+    double = rosen_style.settings("paper", wide=True)
     assert single["figure.figsize"][0] == 3.25
     assert double["figure.figsize"][0] == 7.0
     assert single["figure.figsize"][1] == pytest.approx(3.25 / ((1 + 5**0.5) / 2))
     assert double["figure.figsize"][1] == pytest.approx(7.0 / ((1 + 5**0.5) / 2))
     assert rosen_style.settings("paper", square=True)["figure.figsize"] == [3.25, 3.25]
+    assert rosen_style.settings("paper", wide=True, square=True)["figure.figsize"] == [
+        7.0,
+        7.0,
+    ]
+    assert rosen_style.paper_size(wide=True) == tuple(double["figure.figsize"])
+    assert rosen_style.paper_size() == tuple(single["figure.figsize"])
 
 
 def test_context_restores_matplotlib_settings():
@@ -82,6 +88,20 @@ def test_unknown_style_is_rejected():
         rosen_style.settings("cow")
 
 
-def test_unknown_paper_column_count_is_rejected():
-    with pytest.raises(ValueError, match="column count"):
-        rosen_style.settings("paper", columns=3)
+def test_wide_is_forwarded_and_context_restores_size():
+    with mpl.rc_context():
+        rosen_style.use("paper")
+        original = list(mpl.rcParams["figure.figsize"])
+        with rosen_style.context("paper", wide=True):
+            assert mpl.rcParams["figure.figsize"][0] == 7.0
+        assert mpl.rcParams["figure.figsize"] == original
+        rosen_style.use("paper", wide=True)
+        assert mpl.rcParams["figure.figsize"][0] == 7.0
+        rosen_style.use("paper", wide=False)
+        assert mpl.rcParams["figure.figsize"] == original
+
+
+def test_presentation_is_already_wide():
+    assert rosen_style.settings("presentation", wide=True) == rosen_style.settings(
+        "presentation"
+    )

@@ -33,13 +33,13 @@ with rosen_style.context("paper"):
     fig.savefig("response.png")  # saved at the style default of 600 DPI
 ```
 
-Paper figures default to a 3.25-inch single-column width, with height chosen using the golden ratio. Use `columns=2` for a 7-inch double-column figure:
+Paper figures default to a 3.25-inch width, with height chosen using the golden ratio. Use `wide=True` for a 7-inch-wide figure:
 
 ```python
-with rosen_style.context("paper", columns=2):
+with rosen_style.context("paper", wide=True):
     fig, ax = plt.subplots()
     ax.plot([0, 1, 2], [0, 1, 0])
-    fig.savefig("double-column.png")
+    fig.savefig("wide.png")
 ```
 
 Pass `square=True` for equal figure width and height, which is useful for parity plots and heatmaps. See the [main Matplotlib settings](src/rosen_style/_style.py) for the complete defaults.
@@ -65,12 +65,12 @@ Heatmap with a perceptually uniform color scale:
 ### Multiple subpanels
 
 The style works with Matplotlib's standard subplot layouts. Use `nrows` and
-`ncols` to arrange panels; `columns=2` sets the total paper figure width to
-7 inches, rather than creating two subplot columns. Font and line sizes stay
+`ncols` to arrange panels; `wide=True` sets the total paper figure width to
+7 inches. Font and line sizes stay
 at paper defaults.
 
 ```python
-with rosen_style.context("paper", columns=2):
+with rosen_style.context("paper", wide=True):
     fig, axes = plt.subplots(2, 2, sharex=True, sharey=True)
     for ax in axes.flat:
         ax.plot([0, 1, 2], [0, 1, 0])
@@ -90,7 +90,8 @@ ticks. Choose a large enough canvas for the number of panels: the default
 3.25-inch paper width is intended for a single column, and adding subplots does
 not automatically enlarge it. Use `fig.set_figheight(...)` for additional rows
 or `fig.set_size_inches(...)` for a custom canvas. Presentation mode also
-supports subpanels, using its larger typography and canvas. Shared axes and
+supports subpanels, using its larger typography and canvas; `wide` has no effect
+in presentation mode because its canvas is already wide. Shared axes and
 `ax.label_outer()` help avoid repeated labels when panels use the same units.
 Save without `bbox_inches="tight"` when exact physical dimensions matter.
 
