@@ -28,9 +28,9 @@ def test_presentation_is_larger_than_paper():
     ]
 
 
-def test_paper_column_widths_and_aspect_ratio():
+def test_paper_widths_and_aspect_ratio():
     single = rosen_style.settings("paper")
-    double = rosen_style.settings("paper", columns=2)
+    double = rosen_style.settings("paper", wide=True)
     assert single["figure.figsize"][0] == 3.25
     assert double["figure.figsize"][0] == 7.0
     assert single["figure.figsize"][1] == pytest.approx(3.25 / ((1 + 5**0.5) / 2))
@@ -80,8 +80,3 @@ def test_switching_to_paper_resets_presentation_typography_and_spacing():
 def test_unknown_style_is_rejected():
     with pytest.raises(ValueError, match="Unknown style"):
         rosen_style.settings("cow")
-
-
-def test_unknown_paper_column_count_is_rejected():
-    with pytest.raises(ValueError, match="column count"):
-        rosen_style.settings("paper", columns=3)

@@ -33,13 +33,13 @@ with rosen_style.context("paper"):
     fig.savefig("response.png")  # saved at the style default of 600 DPI
 ```
 
-Paper figures default to a 3.25-inch single-column width, with height chosen using the golden ratio. Use `columns=2` for a 7-inch double-column figure:
+Paper figures default to a 3.25-inch width, with height chosen using the golden ratio. Use `wide=True` for a 7-inch-wide figure:
 
 ```python
-with rosen_style.context("paper", columns=2):
+with rosen_style.context("paper", wide=True):
     fig, ax = plt.subplots()
     ax.plot([0, 1, 2], [0, 1, 0])
-    fig.savefig("double-column.png")
+    fig.savefig("wide.png")
 ```
 
 Pass `square=True` for equal figure width and height, which is useful for parity plots and heatmaps. See the [main Matplotlib settings](src/rosen_style/_style.py) for the complete defaults.
@@ -62,7 +62,24 @@ Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
 
-CI regenerates and commits these images when their source or the styles change.
+### Multiple subpanels
+
+The style works with Matplotlib's standard subplot layouts. Use `nrows` and
+`ncols` to arrange panels; `wide=True` sets the total paper figure width to
+7 inches. Font and line sizes stay
+at paper defaults.
+
+```python
+with rosen_style.context("paper", wide=True):
+    fig, axes = plt.subplots(2, 2, sharex=True, sharey=True)
+    for ax in axes.flat:
+        ax.plot([0, 1, 2], [0, 1, 0])
+        ax.set(xlabel="Time (s)", ylabel="Response (a.u.)")
+        ax.label_outer()
+    fig.savefig("subpanels.pdf")
+```
+
+![Paper figure with four subpanels](examples/paper_subpanels.png)
 
 ## Design references
 

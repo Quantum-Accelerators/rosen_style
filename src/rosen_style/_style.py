@@ -12,7 +12,6 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
 StyleName = Literal["paper", "presentation"]
-PaperColumns = Literal[1, 2]
 _GOLDEN_RATIO = (1 + 5**0.5) / 2
 COLOR_CYCLE = ("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00", "#56B4E9")
 
@@ -100,27 +99,26 @@ _PRESENTATION: dict[str, object] = {
 }
 
 
-def paper_size(
-    columns: PaperColumns = 1, *, square: bool = False
-) -> tuple[float, float]:
-    """Return a journal figure size for one or two columns."""
-    if columns not in (1, 2):
-        msg = f"Unknown paper column count {columns!r}; expected 1 or 2"
-        raise ValueError(msg)
-    width = 3.25 if columns == 1 else 7.0
+def paper_size(*, wide: bool = False, square: bool = False) -> tuple[float, float]:
+    """Return a paper canvas size: 3.25 inches wide, or 7 with wide=True."""
+    width = 7.0 if wide else 3.25
     return width, width if square else width / _GOLDEN_RATIO
 
 
 def settings(
-    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
+    name: StyleName = "paper", *, wide: bool = False, square: bool = False
 ) -> mpl.RcParams:
-    """Return style rcParams without modifying global Matplotlib state."""
+    """Return style rcParams without modifying global Matplotlib state.
+
+    wide selects a 7-inch paper canvas; presentation canvases are already wide
+    and are unaffected. square makes the height equal to the selected width.
+    """
     if name not in ("paper", "presentation"):
         msg = f"Unknown style {name!r}; expected 'paper' or 'presentation'"
         raise ValueError(msg)
     values = {**_COMMON, **(_PAPER if name == "paper" else _PRESENTATION)}
     if name == "paper":
-        values["figure.figsize"] = paper_size(columns, square=square)
+        values["figure.figsize"] = paper_size(wide=wide, square=square)
     elif square:
         width = cast("tuple[float, float]", values["figure.figsize"])[0]
         values["figure.figsize"] = (width, width)
@@ -132,17 +130,15 @@ def settings(
     return params
 
 
-def use(
-    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
-) -> None:
+def use(name: StyleName = "paper", *, wide: bool = False, square: bool = False) -> None:
     """Apply a style globally."""
-    mpl.rcParams.update(settings(name, columns=columns, square=square))
+    mpl.rcParams.update(settings(name, wide=wide, square=square))
 
 
 @contextmanager
 def context(
-    name: StyleName = "paper", *, columns: PaperColumns = 1, square: bool = False
+    name: StyleName = "paper", *, wide: bool = False, square: bool = False
 ) -> Generator[None, None, None]:
     """Temporarily apply a style."""
-    with mpl.rc_context(settings(name, columns=columns, square=square)):
+    with mpl.rc_context(settings(name, wide=wide, square=square)):
         yield
