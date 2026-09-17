@@ -62,7 +62,39 @@ Heatmap with a perceptually uniform color scale:
 
 ![Paper heatmap](examples/paper_heatmap.png)
 
-CI regenerates and commits these images when their source or the styles change.
+### Multiple subpanels
+
+The style works with Matplotlib's standard subplot layouts. Use `nrows` and
+`ncols` to arrange panels; `columns=2` sets the total paper figure width to
+7 inches, rather than creating two subplot columns. Font and line sizes stay
+at paper defaults.
+
+```python
+with rosen_style.context("paper", columns=2):
+    fig, axes = plt.subplots(2, 2, sharex=True, sharey=True)
+    for ax in axes.flat:
+        ax.plot([0, 1, 2], [0, 1, 0])
+        ax.set(xlabel="Time (s)", ylabel="Response (a.u.)")
+        ax.label_outer()
+    fig.savefig("subpanels.pdf")
+```
+
+![Paper figure with four subpanels](examples/paper_subpanels.png)
+
+The [complete example](examples/subpanels.py) adds panel labels, distinct
+markers and line styles, and a legend. Run `python examples/subpanels.py`
+to save PNG and PDF versions.
+
+Constrained layout is already enabled and reserves space for axis labels and
+ticks. Choose a large enough canvas for the number of panels: the default
+3.25-inch paper width is intended for a single column, and adding subplots does
+not automatically enlarge it. Use `fig.set_figheight(...)` for additional rows
+or `fig.set_size_inches(...)` for a custom canvas. Presentation mode also
+supports subpanels, using its larger typography and canvas. Shared axes and
+`ax.label_outer()` help avoid repeated labels when panels use the same units.
+Save without `bbox_inches="tight"` when exact physical dimensions matter.
+
+Run `python examples/build_readme_figures.py` to regenerate all README images.
 
 ## Design references
 
